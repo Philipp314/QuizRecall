@@ -1,0 +1,23 @@
+{
+  "name": "QuizRecall",
+  "short_name": "QuizRecall",
+  "description": "利用問答，輔助對抗遺忘曲線(Ebbinghaus Forgetting Curve)",
+  "lang": "zh-Hant",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#edf6f9",
+  "background_color": "#83C5BE",
+  "icons": [
+    {
+      "src": "./material/icon/192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./material/icon/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

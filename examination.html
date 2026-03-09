@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" name="google" content="notranslate"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="https://unpkg.com/dexie-export-import@latest/dist/dexie-export-import.js"></script>
+    <link rel="stylesheet" href="./material/color.css">
+    <style type="text/css">
+      <!--
+        :root{--header-height: 60px;}
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          background-color: var(--bg-main);
+          color: var(--text-main);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 100vh;
+        }
+/* --- 標題欄位 --- */
+        #titleArea {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: var(--header-height);
+          background-color: var(--bg-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+          z-index: 100;
+        }
+        #title {
+          font-size: 2rem;
+          font-weight: bold;
+          color: var(--accent-stress);
+        }
+        #backButton {
+          position: absolute;
+          left: 15px;
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        #backButton::before {
+          content: '';
+          width: 15px;
+          height: 15px;
+          border-left: 3px solid var(--accent-stress);
+          border-bottom: 3px solid var(--accent-stress);
+          transform: rotate(45deg);
+        }
+/* --- 題目區域 --- */
+        #questionArea{
+          margin-top: calc(var(--header-height) + 50px);
+          width: 80%;
+          aspect-ratio: 1;
+          border-radius: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          text-align: center;
+          background-color: var(--text-main);
+          border: 5px solid var(--accent-stress);
+          color: var(--bg-decorate);
+        }
+        #questionShow{font-size: 3em;}
+        #questionShow2nd{font-size: 1.5em;}
+        #sound{
+          position: absolute;
+          top: 15px;
+          width: 50px;
+        }
+        #answerArea{
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          align-items: center;
+          width: 80%;
+          gap: 20px;
+          padding: 20px 10px;
+          overflow-y: auto;
+        }
+        .select{
+          font-size: 2em;
+          background-color: var(--accent-stress);
+          border: 5px solid var(--bg-primary);
+          padding: 10px;
+          width: 80%;
+          text-align: center;
+          border-radius: 20px;
+          color: var(--text-strong);
+          display: none;
+        }
+        
+        span.correct{background-color: var(--status-correct);}
+        span.wrong{background-color: var(--status-wrong);}
+      -->
+    </style>
+  </head>
+<!----------------------------------------------------------------------------->
+  <body class="notranslate" style="overflow:hidden;margin:0px;">
+    <div id="titleArea">
+      <span id="backButton" onclick="window.location.href = './index.html';"></span>
+      <span id="title">Review Test</span>
+    </div>
+    <div id="questionArea" onclick="getReviewQuestion();">
+      <span id="questionShow">開始練習</span>
+      <span id="questionShow2nd">點擊以繼續</span>
+    </div>
+    <div id="answerArea">
+      <span class="select" id="1" onclick="selectAnswer(this)"></span>
+      <span class="select" id="2" onclick="selectAnswer(this)"></span>
+      <span class="select" id="3" onclick="selectAnswer(this)"></span>
+      <span class="select" id="4" onclick="selectAnswer(this)"></span>
+    </div>
+    <script language="javascript" title="globalValue">
+      <!--
+        async function speak(text,URI) {
+          const voices = await new Promise(resolve => {
+            const v = speechSynthesis.getVoices();
+            if (v.length) return resolve(v);
+            speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
+          });
+          let voice = voices.find(v => v.voiceURI === URI)
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.voice = voice;
+          speechSynthesis.speak(utter);
+        }
+        function shuffle(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+        }
+        const questionShowObj=document.getElementById("questionShow");
+        const questionShow2ndObj=document.getElementById("questionShow2nd");
+        const select1Obj=document.getElementById("1");
+        const select2Obj=document.getElementById("2");
+        const select3Obj=document.getElementById("3");
+        const select4Obj=document.getElementById("4");
+        function clearQuestion(){
+          questionShowObj.innerHTML="";
+          questionShow2ndObj.innerHTML="";
+          questionShow2ndObj.style.display="none";
+          for(let i of [1,2,3,4]){
+            const obj=document.getElementById(String(i));
+            obj.innerHTML="";
+            obj.style.display="none";
+            obj.classList.remove("correct");
+            obj.classList.remove("wrong");
+            obj.setAttribute("onclick","selectAnswer(this)");
+          }
+        }
+        const reviewIDlist=location.hash.split("#").slice(1);
+        shuffle(reviewIDlist);
+      -->
+    </script>
+    <script language="javascript" title="dataBase">
+      <!--
+        const libraryInfoDB=new Dexie("LibraryInfo");
+        libraryInfoDB.version(1)
+          .stores({main: "name, format, testMethod, TTSvoiceURl, showType"});
+        const questionLibraryDB=new Dexie("QuestionLibrary");
+        questionLibraryDB.version(1)
+          .stores({main: "++_id, _ascription, _proficiency, _lastTest"});
+        
+        async function getRandomItems(table, ascription, totalLimit, mustHaveIds = []) {
+          const guaranteedItems = await table.bulkGet(mustHaveIds);
+          let results = guaranteedItems.filter(item => item !== undefined);
+          const neededRandomCount = totalLimit - results.length;
+          if (neededRandomCount <= 0) {
+            return results.slice(0, totalLimit);
+          }
+          const allMatchIds = await table
+            .where('_ascription').equals(ascription)
+            .primaryKeys();
+          const poolIds = allMatchIds.filter(id => !mustHaveIds.includes(id));
+          const shuffledPool = poolIds.sort(() => 0.5 - Math.random());
+          const selectedRandomIds = shuffledPool.slice(0, neededRandomCount);
+          const randomItems = await table.bulkGet(selectedRandomIds);
+          results = results.concat(randomItems);
+          shuffle(results);
+          return results;
+        }
+        
+        async function getReviewQuestion(){
+          clearQuestion();
+          if(reviewIDlist.length<1){
+            questionShowObj.innerHTML="測驗已結束";
+            return;
+          }
+          const questionID=reviewIDlist.pop();
+          const questionInfo=await questionLibraryDB.main.get(+questionID);
+          const LibraryInfo=await libraryInfoDB.main.get(questionInfo._ascription);
+          let randomNum=Math.random();
+          let testMethod=null;
+          for(let thisMethod of LibraryInfo.testMethod){ //抽測試方式
+            if(randomNum<=thisMethod.probability){
+              testMethod=thisMethod;
+              break;
+            }else{
+              randomNum-=thisMethod.probability;
+            }
+          }
+          questionShowObj.innerHTML=questionInfo[testMethod.show];
+          questionShowObj.dataset.questionID=+questionID;
+          questionShowObj.dataset.questionScore=testMethod.score;
+console.log(testMethod);
+          questionShowObj.dataset.sdoundAfter=testMethod.sdoundAfter;
+          questionShowObj.dataset.TTSvoiceURl=LibraryInfo.TTSvoiceURl;
+          if(testMethod.show2nd){
+            questionShow2ndObj.innerHTML=questionInfo[testMethod.show2nd];
+            questionShow2ndObj.style.display="block";
+          }
+          switch(testMethod.selectType){
+            case "random":
+              const selectList=await getRandomItems(
+                questionLibraryDB.main,
+                LibraryInfo.name,
+                testMethod.selectNumber,
+                [+questionID]
+              );
+              for(let i of [1,2,3,4]){
+                if(i<=testMethod.selectNumber){
+                  const obj=document.getElementById(String(i))
+                  obj.style.display="block";
+                  obj.innerHTML=selectList[i-1][testMethod.select];
+                  obj.dataset.fromID=selectList[i-1]._id;
+                }
+              }
+              break;
+            case "inQuestion":
+              
+              break;
+            case "TorF":
+              
+              break;
+          }
+          if(testMethod.soundBefore)
+          {speak(questionInfo[testMethod.soundBefore]+".",LibraryInfo.TTSvoiceURl);}
+        }
+        
+        async function selectAnswer(obj){
+          const anser=questionShowObj.dataset.questionID;
+          const score=questionShowObj.dataset.questionScore;
+          const original=await questionLibraryDB.main.get(+anser)
+          for(let i of [1,2,3,4]){
+            const thisObj=document.getElementById(String(i))
+            if(thisObj.dataset.fromID==anser)
+            {thisObj.classList.add("correct");}
+            thisObj.setAttribute("onclick","");
+          };
+          if(obj.dataset.fromID==anser){
+            await questionLibraryDB.main.update(+anser,{
+              _proficiency: original._proficiency*(1+score/100),
+              _lastTest: +new Date()
+            });
+          }else{
+            obj.classList.add("wrong");
+            await questionLibraryDB.main.update(+anser,{
+              _proficiency: Math.round(original._proficiency/(2.5-score/100)),
+              _lastTest: +new Date()
+            });
+          }
+          if(questionShowObj.dataset.sdoundAfter)
+          {speak(original[questionShowObj.dataset.sdoundAfter]+".",questionShowObj.dataset.TTSvoiceURl);}
+        }
+      -->
+    </script>
+    <script language="javascript">
+      <!--
+        
+      -->
+    </script>
+  </body>
+</html>

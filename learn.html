@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" name="google" content="notranslate"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="https://unpkg.com/dexie-export-import@latest/dist/dexie-export-import.js"></script>
+    <script src="https://unpkg.com/dompurify@3.2.4/dist/purify.min.js"></script>
+    <link rel="stylesheet" href="./material/color.css">
+    <style type="text/css">
+      <!--
+        :root{--header-height: 60px;}
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          background-color: var(--bg-main);
+          color: var(--text-main);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 100vh;
+        }
+/* --- 標題欄位 --- */
+        #titleArea {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: var(--header-height);
+          background-color: var(--bg-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+          z-index: 100;
+        }
+        #title {
+          font-size: 2rem;
+          font-weight: bold;
+          color: var(--accent-stress);
+        }
+        #backButton {
+          position: absolute;
+          left: 15px;
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        #backButton::before {
+          content: '';
+          width: 15px;
+          height: 15px;
+          border-left: 3px solid var(--accent-stress);
+          border-bottom: 3px solid var(--accent-stress);
+          transform: rotate(45deg);
+        }
+/* --- 題庫排佈 --- */
+        #questionLibrary{
+          margin-top: var(--header-height);
+          width: calc(100% - 40px);
+          height: 100%;
+          padding: 20px;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          align-content: flex-start;
+          gap: 20px 0px;
+          overflow-y: auto;
+        }
+        .question{
+          width: 40%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--bg-decorate);
+          border-radius: 15px;
+          padding: 5px;
+          text-align: center;
+        }
+        .question>span{
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+        }
+        .question>hr{
+          background-color: var(--bg-2ndPrimary);
+          width: 100%;
+          height: 1px;
+          margin: 15px 0px;
+        }
+/* --- 彈出顯示 --- */
+        #dialog[open]{
+          background-color: var(--bg-2ndPrimary);
+          width: calc(100% - 90px);
+          border: none;
+          margin-left: 20px;
+          margin-right: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          font-size: 25px;
+          /* 讓彈窗出現時自帶平滑感 */
+          animation: fadeIn 0.3s ease-out;
+        }
+        #dialog::backdrop{
+          background-color: #000000a0;
+          animation: fadeInUnscale 0.3s ease-out;
+        }
+        #dialog>hr{
+          background-color: var(--text-contrary);
+          width: 100%;
+          height: 3px;
+          margin: 15px 0px;
+          border: none;
+        }
+        #dialogButton{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: 100%;
+        }
+        #dialogButton>span{
+          padding: 3px 15px;
+          border-radius: 10px;
+          margin-top: 15px;
+          font-size: 1.2em;
+          border: 3px solid var(--bg-decorate);
+        }
+        #cancel{
+          background-color: var(--status-wrong);
+        }
+        #memory{
+          background-color: var(--accent-stress);
+        }
+        /* 進場動畫 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        /* 進場動畫無縮放 */
+        @keyframes fadeInUnscale {
+            from { opacity: 0;}
+            to { opacity: 1;}
+        }
+      -->
+    </style>
+  </head>
+<!----------------------------------------------------------------------------->
+  <body class="notranslate" style="overflow:hidden;margin:0px;">
+    <div id="titleArea">
+      <span id="backButton" onclick="window.location.href = './index.html';"></span>
+      <span id="title">QuizRecall</span>
+    </div>
+    <div id="questionLibrary"></div>
+    <dialog id="dialog" data-question-i-d=""></dialog>
+    <script language="javascript" title="globalValue">
+      <!--
+        const hash=location.hash.split("#");
+        document.getElementById("title").innerHTML=hash[1];
+        const dialog = document.getElementById('dialog');
+        function renderFlashcard(format, showType, item) {
+          /**
+           * @param {Array} format - 欄位名稱陣列 (例如: ["Kanji", "reading", "meaning"])
+           * @param {string} showType - 帶有 ${var} 的 HTML 樣板字串
+           * @param {Object} item - 該筆單字的資料物件 (例如: question[0])
+           * @returns {string} - 清洗後可直接使用的 innerHTML
+           */
+          let html = showType;
+          format.forEach(key => {
+            const placeholder = `\${${key}}`;
+            const value = item[key] !== undefined ? item[key] : "";
+            html = html.split(placeholder).join(value);
+          });
+          return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(html) : html;
+        }
+      -->
+    </script>
+    <script language="javascript" title="dataBase">
+      <!--
+        const libraryInfoDB=new Dexie("LibraryInfo");
+        libraryInfoDB.version(1)
+          .stores({main: "name, format, testMethod, TTSvoiceURl, showType"});
+        const questionLibraryDB=new Dexie("QuestionLibrary");
+        questionLibraryDB.version(1)
+          .stores({main: "++_id, _ascription, _proficiency, _lastTest"});
+        
+        async function getQuestion(idList){
+          
+          for(let questionID of idList){
+            const question=await questionLibraryDB.main.get(+questionID);
+            const libraryInfo=await libraryInfoDB.main.get(question._ascription);
+            let showType=libraryInfo.showType;
+            let format=libraryInfo.format;
+            const inner_html=renderFlashcard(format,showType,question);
+            let poster=document.createElement("div");
+            poster.classList.add("question");
+            poster.setAttribute("onclick","showDialog(this)");
+            poster.id=+questionID;
+            document.getElementById("questionLibrary").appendChild(poster);
+            poster.innerHTML=inner_html;
+          }
+        }
+        getQuestion(hash.slice(2));
+        
+        async function memoryQust(){
+          const questionID=dialog.dataset.questionID;
+          await questionLibraryDB.main.update(+questionID,{
+            _proficiency: 1,
+            _lastTest: +new Date()
+          });
+          document.getElementById(questionID).style.backgroundColor="var(--bg-2ndPrimary)";
+          dialog.close();
+        }
+      -->
+    </script>
+    <script language="javascript" title="clickFunction">
+      <!--
+        function showDialog(obj){
+          dialog.innerHTML=obj.innerHTML+`
+            <div id="dialogButton">
+              <span id="cancel" onclick="dialog.close();">取消</span>
+              <span id="memory" onclick="memoryQust();">記住了</span>
+            </div>
+          `;
+          dialog.dataset.questionID=obj.id;
+          dialog.showModal();
+        }
+      -->
+    </script>
+  </body>
+</html>
