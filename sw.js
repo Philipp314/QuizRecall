@@ -3,10 +3,12 @@ const CACHE_NAME = 'pwa-offline-v1';
 // 根據你提供的檔案列表整理的快取清單
 const ASSETS_TO_CACHE = [
   './',
+  './manifest.json',
   './favicon.ico',
-  './examination.html',
   './index.html',
   './learn.html',
+  './examination.html',
+  './material/color.css',
   './material/icon/192.png',
   './material/icon/2475.png',
   './material/icon/512.png',
