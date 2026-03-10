@@ -735,11 +735,9 @@
     {
       "probability": 0.4,
       "show": "reading",
-      "show2nd": null,
       "select":"meaning",
       "selectType": "random",
       "selectNumber": 4,
-      "answer": null,
       "soundBefore": "reading",
       "sdoundAfter": "reading",
       "score": 100
@@ -747,12 +745,9 @@
     {
       "probability": 0.4,
       "show": "meaning",
-      "show2nd": null,
       "select":"reading",
       "selectType": "random",
       "selectNumber": 4,
-      "answer": null,
-      "soundBefore": null,
       "sdoundAfter": "reading",
       "score": 100
     },
@@ -763,7 +758,6 @@
       "select":"meaning",
       "selectType": "random",
       "selectNumber": 4,
-      "answer": null,
       "soundBefore": "reading",
       "sdoundAfter": "reading",
       "score": 20

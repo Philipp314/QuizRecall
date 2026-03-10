@@ -93,6 +93,25 @@
           height: 1px;
           margin: 15px 0px;
         }
+        
+        .select{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: 100%;
+          gap: 5px;
+          word-break: break-all;
+        }
+        .select>span{
+          background-color: var(--accent-stress);
+          padding: 3px 10px;
+          text-align: center;
+          color: var(--text-strong);
+        }
+        .select>span.correct{
+          background-color: var(--status-correct);
+        }
+        
 /* --- 彈出顯示 --- */
         #dialog[open]{
           background-color: var(--bg-2ndPrimary);
@@ -191,7 +210,6 @@
           .stores({main: "++_id, _ascription, _proficiency, _lastTest"});
         
         async function getQuestion(idList){
-          
           for(let questionID of idList){
             const question=await questionLibraryDB.main.get(+questionID);
             const libraryInfo=await libraryInfoDB.main.get(question._ascription);
@@ -205,6 +223,12 @@
             document.getElementById("questionLibrary").appendChild(poster);
             poster.innerHTML=inner_html;
           }
+          const selectObj=new Array(...document.getElementsByClassName("select"));
+          selectObj.forEach((obj)=>{
+            const answer=obj.dataset.answer;
+console.log(answer);
+            obj.children[+answer-1].classList.add("correct");
+          });
         }
         getQuestion(hash.slice(2));
         

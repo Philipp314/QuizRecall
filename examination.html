@@ -237,6 +237,17 @@
               }
               break;
             case "inQuestion":
+              for(let i of [1,2,3,4]){
+                if(i<=testMethod.selectNumber){
+                  const obj=document.getElementById(String(i))
+                  obj.style.display="block";
+                  obj.innerHTML=questionInfo[testMethod.selection[i-1]];
+                  if(questionInfo[testMethod.answer]==i)
+                  {obj.dataset.fromID=questionID;}
+                  else
+                  {obj.dataset.fromID=-1;}
+                }
+              }
               
               break;
             case "TorF":

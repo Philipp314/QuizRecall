@@ -1,0 +1,35 @@
+{
+  "name": "MCQ-test",
+  "format": ["question","options1","options2","options3","answer"],
+  "showType": "<span style='font-size: 2em;'>${question}</span><hr><div class='select' style='font-size: 1.5em;' data-answer='${answer}'><span>${options1}</span><span>${options2}</span><span>${options3}</span></div>",
+  "TTSvoiceURl": null,
+  "question":[
+    {"question": "下列哪種動物是唯一會飛的哺乳類動物？", "options1": "老鷹", "options2": "蝙蝠", "options3": "鼯鼠", "answer": 2},
+    {"question": "太陽系中哪一顆行星被稱為「紅色星球」？", "options1": "火星", "options2": "金星", "options3": "木星", "answer": 1},
+    {"question": "人體中最大的器官是什麼？", "options1": "肝臟", "options2": "大腸", "options3": "皮膚", "answer": 3},
+    {"question": "著名的「相對論」是由哪位科學家提出的？", "options1": "牛頓", "options2": "愛因斯坦", "options3": "霍金", "answer": 2},
+    {"question": "世界上最長的海溝是哪一個？", "options1": "馬里亞納海溝", "options2": "湯加海溝", "options3": "波多黎各海溝", "answer": 1},
+    {"question": "水的化學分子式為何？", "options1": "CO2", "options2": "H2O", "options3": "O2", "answer": 2},
+    {"question": "下列哪一個城市被稱為「音樂之都」？", "options1": "倫敦", "options2": "維也納", "options3": "巴黎", "answer": 2},
+    {"question": "「草船借箭」是三國演義中誰的著名計謀？", "options1": "周瑜", "options2": "諸葛亮", "options3": "劉備", "answer": 2},
+    {"question": "一個標準足球隊在場上同時比賽的人數是多少人？", "options1": "9人", "options2": "11人", "options3": "12人", "answer": 2},
+    {"question": "下列哪一種金屬在常溫下是液態的？", "options1": "汞(水銀)", "options2": "銀", "options3": "鋁", "answer": 1},
+    {"question": "電腦的主機板縮寫通常稱為？", "options1": "CPU", "options2": "RAM", "options3": "MB", "answer": 3},
+    {"question": "奧運五環標誌中，藍、黃、黑、綠、紅五色代表什麼？", "options1": "五大洲", "options2": "五種運動項目", "options3": "五大洋", "answer": 1},
+    {"question": "「歲寒三友」指的是松、竹以及哪種植物？", "options1": "蘭", "options2": "菊", "options3": "梅", "answer": 3},
+    {"question": "聲音在下列哪種介質中傳播速度最快？", "options1": "空氣", "options2": "水", "options3": "鋼鐵", "answer": 3},
+    {"question": "世界第一高峰「珠穆朗瑪峰」位於哪座山脈？", "options1": "喜馬拉雅山脈", "options2": "阿爾卑斯山脈", "options3": "落基山脈", "answer": 1}
+  ],
+  "testMethod":[
+    {
+      "probability": 1,
+      "show": "question",
+      "select":"options\\d",
+      "selectType": "inQuestion",
+      "selection": ["options1","options2","options3"],
+      "selectNumber": 3,
+      "answer": "answer",
+      "score": 100
+    }
+  ]
+}
