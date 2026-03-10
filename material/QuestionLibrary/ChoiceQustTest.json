@@ -24,9 +24,8 @@
     {
       "probability": 1,
       "show": "question",
-      "select":"options\\d",
+      "select":["options1","options2","options3"],
       "selectType": "inQuestion",
-      "selection": ["options1","options2","options3"],
       "selectNumber": 3,
       "answer": "answer",
       "score": 100

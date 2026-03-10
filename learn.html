@@ -226,7 +226,6 @@
           const selectObj=new Array(...document.getElementsByClassName("select"));
           selectObj.forEach((obj)=>{
             const answer=obj.dataset.answer;
-console.log(answer);
             obj.children[+answer-1].classList.add("correct");
           });
         }

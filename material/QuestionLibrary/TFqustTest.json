@@ -1,0 +1,22 @@
+{
+  "name": "TF-test",
+  "format": ["question","answer"],
+  "showType": "<span style='font-size: 2em;'>${question}</span><hr><div class='select' style='font-size: 1.5em;' data-answer='${answer}'><span>X</span><span>O</span></div>",
+  "TTSvoiceURl": null,
+  "question":[
+  {"question": "太陽系中體積最大的行星是木星。","answer": 2},
+  {"question": "光速在真空中傳播的速度大約是每秒 30 萬公里。","answer": 2},
+  {"question": "月球本身會發光，所以我們在夜晚才能看到它。","answer": 1},
+  {"question": "企鵝是鳥類的一種，雖然牠們不會飛行，但擁有羽毛並透過產卵繁殖。","answer": 2},
+  {"question": "所有的哺乳類動物都是胎生的，沒有例外。","answer": 1}
+  ],
+  "testMethod":[
+    {
+      "probability": 1,
+      "show": "question",
+      "selectType": "TorF",
+      "answer": "answer",
+      "score": 100
+    }
+  ]
+}

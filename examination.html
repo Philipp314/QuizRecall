@@ -241,17 +241,24 @@
                 if(i<=testMethod.selectNumber){
                   const obj=document.getElementById(String(i))
                   obj.style.display="block";
-                  obj.innerHTML=questionInfo[testMethod.selection[i-1]];
+                  obj.innerHTML=questionInfo[testMethod.select[i-1]];
                   if(questionInfo[testMethod.answer]==i)
                   {obj.dataset.fromID=questionID;}
                   else
                   {obj.dataset.fromID=-1;}
                 }
               }
-              
               break;
             case "TorF":
-              
+              for(let i of [1,2]){
+                const obj=document.getElementById(String(i))
+                obj.style.display="block";
+                obj.innerHTML=(i-1)?"O":"X";
+                if(questionInfo[testMethod.answer]==i)
+                {obj.dataset.fromID=questionID;}
+                else
+                {obj.dataset.fromID=-1;}
+              }
               break;
           }
           if(testMethod.soundBefore)
