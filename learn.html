@@ -235,7 +235,7 @@
           const questionID=dialog.dataset.questionID;
           await questionLibraryDB.main.update(+questionID,{
             _proficiency: 1,
-            _lastTest: +new Date()-24*60*60*1000
+            _lastTest: +new Date();
           });
           document.getElementById(questionID).style.backgroundColor="var(--bg-2ndPrimary)";
           dialog.close();
